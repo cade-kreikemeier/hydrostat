@@ -1,0 +1,35 @@
+[project]
+name = "Hydrostat"
+version = "0.0.1"
+description = "Backend services for Hydrostat"
+authors = [
+    {name = "ckreikemeier", email = ""},
+]
+dependencies = [
+    "sqlalchemy>=2.0.30",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[project.optional-dependencies]
+api = ["fastapi>=0.111.0"]
+database = ["psycopg2-binary>=2.9.9"]
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black>=24.4.2",
+    "ruff>=0.4.9",
+    "bandit>=1.7.9",
+    "pre-commit>=3.7.1",
+    "pytest>=8.2.2",
+    "pydantic>=2.7.4",
+]
+
+[tool.black]
+line-length = 100

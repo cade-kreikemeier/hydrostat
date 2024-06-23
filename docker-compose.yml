@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: api/Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend/api/src:/app/src
+    command: ["fastapi", "run", "./src/main.py", "--port", "8000", "--reload"]
+    restart: on-failure
+    depends_on:
+      - database
+  database:
+    image: postgres:16.3-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+  webui:
+    build:
+      context: ./webui
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
+    volumes:
+      - ./webui:/app
+      - ./webui/node_modules:/app/node_modules
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

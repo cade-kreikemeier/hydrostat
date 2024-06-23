@@ -1,0 +1,51 @@
+# Ignore common Python files and directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+**/.venv/
+
+# Ignore any version control files
+**/.git/
+*/.gitignore
+
+# Ignore development and local files
+**/.env
+**/.env.*
+
+# Ignore any editor-specific files
+**/.vscode/
+**/.idea/
+
+# Ignore any logs or temporary files
+*.log
+*.tmp
+
+# Ignore PDM package manager files
+**/.pdm-python
+**/.pdm-build/
+
+# Ignore test files and directories
+**/tests
+*.test.*
+
+# Ignore node_modules directory
+**/node_modules/
+
+# Ignore build output directory
+**/dist/
+
+# Ignore development server files
+**/.vite/
+
+# Ignore husky files
+**/.husky/
+
+# Ignore linting and formatting files
+**/.eslintrc.cjs
+**/.prettierignore
+**/.prettierrc.json
+
+# Ignore Liscense file and README files
+LICENSE
+**/README.md
