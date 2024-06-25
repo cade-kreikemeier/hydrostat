@@ -1,18 +1,29 @@
 import psycopg2  # type: ignore # noqa # pylint: disable=unused-import
 
-from sqlalchemy import create_engine
-from db.models import Base
+from models import Base
 
-# DATABASE_URI = "postgresql://your_username:your_password@your_host/your_database"
-DATABASE_URI = "postgresql://postgres:postgres@localhost:5433/hydrostat_db"
+from dotenv import load_dotenv
+from os import getenv
+from sqlalchemy import create_engine
+
+
+try:
+    load_dotenv()
+except Exception as e:
+    print("Error loading .env file:", str(e))
+    raise
+
+# DATABASE_URI = "database+driver://username:password@host:port/database_name"
+DATABASE_URI = f"postgresql://{getenv('DB_USER')}:{getenv('DB_PASSWORD')}@localhost:{getenv('DB_PORT')}/{getenv('DB_NAME')}"
+
 
 engine = create_engine(DATABASE_URI, echo=True)
 
 # Test the connection
 try:
-    connection = engine.connect()
-    print("Connection successful!")
-    connection.close()
+    with engine.connect() as connection:
+        print("Connection successful!")
+        connection.close()
 except Exception as e:
     print("Connection failed:", str(e))
 

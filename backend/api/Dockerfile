@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY ./api/requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --no-cache-dir 
 
-COPY ./api/src/ .
+COPY ../.env .
+COPY ../db/models.py .
+COPY ./api/app/ .

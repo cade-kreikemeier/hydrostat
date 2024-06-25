@@ -10,6 +10,7 @@ from sqlalchemy import Integer
 from sqlalchemy import REAL
 from sqlalchemy import String
 from sqlalchemy import UUID as sa_UUID
+from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -19,7 +20,7 @@ from sqlalchemy.orm import relationship
 models: list = []
 
 
-class Base(DeclarativeBase):
+class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
@@ -102,15 +103,13 @@ class Harvest(Base):
     __tablename__ = "Harvests"
 
     id: Mapped[UUID] = mapped_column(primary_key=True, default=sa_UUID)
-    date: Mapped[datetime.datetime] = mapped_column(
-        DateTime(timezone=False), nullable=False
-    )
+    date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=False), nullable=False)
     crop_id: Mapped[UUID] = mapped_column(ForeignKey("Crops.id"), nullable=False)
     crop: Mapped[List["Crop"]] = relationship(back_populates="harvests")
     yield_weight: Mapped[int] = mapped_column(Integer)  # in kg
 
     def __repr__(self) -> str:
-        return f"Harvest(id={self.id!r}, date={self.date!r}, crop_id={self.crop_id!r}, yeild_amount={self.yeild_amount!r})"
+        return f"Harvest(id={self.id!r}, date={self.date!r}, crop_id={self.crop_id!r}, yield_amount={self.yield_amount!r})"
 
 
 class Device(Base):
@@ -160,16 +159,12 @@ class Sensor(Base):
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     device_id: Mapped[UUID] = mapped_column(ForeignKey("Devices.id"), nullable=False)
     device: Mapped[List["Device"]] = relationship(back_populates="sensors")
-    sensor_info_id: Mapped[int] = mapped_column(
-        ForeignKey("SensorInfo.id"), nullable=False
-    )
+    sensor_info_id: Mapped[int] = mapped_column(ForeignKey("SensorInfo.id"), nullable=False)
     sensor_info: Mapped[List["SensorInfo"]] = relationship(back_populates="sensors")
     sensor_calibrations: Mapped[Optional[List["SensorCalibration"]]] = relationship(
         back_populates="sensor"
     )
-    sensor_readings: Mapped[Optional[List["SensorReading"]]] = relationship(
-        back_populates="sensor"
-    )
+    sensor_readings: Mapped[Optional[List["SensorReading"]]] = relationship(back_populates="sensor")
 
     def __repr__(self) -> str:
         return f"Sensor(id={self.id!r}, name={self.name!r}, device_id={self.device_id!r}, sensor_info_id={self.sensor_info_id!r})"
@@ -179,9 +174,7 @@ class SensorCalibration(Base):
     __tablename__ = "SensorCalibrations"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date: Mapped[datetime.datetime] = mapped_column(
-        DateTime(timezone=False), nullable=False
-    )
+    date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=False), nullable=False)
     calibration_pass: Mapped[bool] = mapped_column(default=False, nullable=False)
     sensor_id: Mapped[UUID] = mapped_column(ForeignKey("Sensors.id"), nullable=False)
     sensor: Mapped[List["Sensor"]] = relationship(back_populates="sensor_calibrations")
@@ -194,9 +187,7 @@ class SensorReading(Base):
     __tablename__ = "SensorReadings"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date: Mapped[datetime.datetime] = mapped_column(
-        DateTime(timezone=False), nullable=False
-    )
+    date: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=False), nullable=False)
     value: Mapped[int] = mapped_column(REAL, nullable=False)
     sensor_id: Mapped[UUID] = mapped_column(ForeignKey("Sensors.id"), nullable=False)
     sensor: Mapped[List["Sensor"]] = relationship(back_populates="sensor_readings")

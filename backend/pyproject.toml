@@ -6,7 +6,9 @@ authors = [
     {name = "ckreikemeier", email = ""},
 ]
 dependencies = [
-    "sqlalchemy>=2.0.30",
+    "sqlalchemy[asyncio]>=2.0.31",
+    "python-dotenv>=1.0.1",
+    "asyncpg>=0.29.0",
 ]
 requires-python = "==3.11.*"
 readme = "README.md"
@@ -21,6 +23,7 @@ database = ["psycopg2-binary>=2.9.9"]
 [tool.pdm]
 distribution = false
 
+
 [tool.pdm.dev-dependencies]
 dev = [
     "black>=24.4.2",
@@ -30,6 +33,7 @@ dev = [
     "pytest>=8.2.2",
     "pydantic>=2.7.4",
 ]
+
 
 [tool.black]
 line-length = 100

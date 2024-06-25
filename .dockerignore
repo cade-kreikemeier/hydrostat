@@ -49,3 +49,6 @@ __pycache__/
 # Ignore Liscense file and README files
 LICENSE
 **/README.md
+
+# Ignore shared models.py file
+backend/api/app/models.py

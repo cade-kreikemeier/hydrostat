@@ -1,4 +1,4 @@
-from db.models import (
+from models import (
     Crop,
     Device,
     Farm,

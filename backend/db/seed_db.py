@@ -1,5 +1,5 @@
-from db.main import engine
-from db.models import (
+from main import engine
+from models import (
     Crop,
     Device,
     Farm,
@@ -13,7 +13,7 @@ from db.models import (
     Tenant,
     User,
 )
-from db.scripts.seed_data import (
+from seed_data import (
     crops,
     devices,
     farms,

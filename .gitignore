@@ -43,3 +43,5 @@ __pypackages__/
 .pdm-python
 .pdm-build/
 
+# Ignore shared models.py file
+backend/api/app/models.py
